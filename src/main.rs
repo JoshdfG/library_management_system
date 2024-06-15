@@ -38,12 +38,14 @@ impl User {
     fn borrow_book(&mut self, book: &mut Book, book_type: BookType) {
         match self.role {
             Role::Member(_) => {
-                if book_type != BookType::Reference && book.available {
+                if book_type == BookType::Reference {
+                    println!("Members cant borrow reference types book")
+                } else if !book.available {
+                    println!("The requested book is not available");
+                } else {
                     book.available = false;
                     self.borrowed_books.push(book.clone());
                     println!("{} borrowed {}", self.name, book.title);
-                } else {
-                    println!("The requested book is not available");
                 }
             }
             Role::Librarian(_) => {
@@ -61,22 +63,14 @@ impl User {
     fn return_book(&mut self, book: &mut Book, book_type: BookType) {
         match self.role {
             Role::Member(_) => {
-                if book_type == BookType::Reference && !book.available {
-                    book.available = true;
-                    self.borrowed_books.pop();
-                    println!("{} returned {}", self.name, book.title);
-                } else {
-                    println!("You dont have a book to return");
-                }
+                book.available = true;
+                self.borrowed_books.pop();
+                println!("{} returned {}", self.name, book.title);
             }
             Role::Librarian(_) => {
-                if !book.available {
-                    book.available = true;
-                    self.borrowed_books.pop();
-                    println!("{} returned {}", self.name, book.title);
-                } else {
-                    println!("You dont have a book to return");
-                }
+                book.available = true;
+                self.borrowed_books.pop();
+                println!("{} returned {}", self.name, book.title);
             }
         }
     }
