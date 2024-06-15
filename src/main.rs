@@ -64,12 +64,28 @@ impl User {
         match self.role {
             Role::Member(_) => {
                 book.available = true;
-                self.borrowed_books.pop();
+                let book_index = self
+                    .borrowed_books
+                    .iter()
+                    .position(|b| b.title == book.title);
+                if let Some(index) = book_index {
+                    self.borrowed_books.remove(index);
+                    println!("{} returned {}", self.name, book.title);
+                }
                 println!("{} returned {}", self.name, book.title);
             }
             Role::Librarian(_) => {
                 book.available = true;
-                self.borrowed_books.pop();
+                let book_index = self
+                    .borrowed_books
+                    .iter()
+                    .position(|b| b.title == book.title);
+                if let Some(index) = book_index {
+                    self.borrowed_books.remove(index);
+                    println!("{} returned {}", self.name, book.title);
+                } else {
+                    println!("")
+                }
                 println!("{} returned {}", self.name, book.title);
             }
         }
