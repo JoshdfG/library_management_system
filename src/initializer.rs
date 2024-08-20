@@ -27,13 +27,13 @@ pub fn ititialize() {
 
     let mut user1 = User {
         name: String::from("Joel"),
-        role: Role::Member("Joel".to_owned()),
+        role: Role::Member,
         borrowed_books: Vec::<Book>::new(),
     };
 
     let mut user2 = User {
         name: String::from("Josh"),
-        role: Role::Librarian("Josh".to_owned()),
+        role: Role::Librarian,
         borrowed_books: Vec::<Book>::new(),
     };
 

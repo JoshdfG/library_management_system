@@ -7,8 +7,8 @@ pub struct Book {
 }
 
 pub enum Role {
-    Member(String),
-    Librarian(String),
+    Member,
+    Librarian,
 }
 
 #[derive(PartialEq)]
@@ -37,7 +37,7 @@ impl Book {
 impl User {
     pub fn borrow_book(&mut self, book: &mut Book, book_type: BookType) {
         match self.role {
-            Role::Member(_) => {
+            Role::Member => {
                 if book_type == BookType::Reference {
                     println!("Members cant borrow reference types book")
                 } else if !book.available {
@@ -48,7 +48,7 @@ impl User {
                     println!("{} borrowed {}", self.name, book.title);
                 }
             }
-            Role::Librarian(_) => {
+            Role::Librarian => {
                 if book.available {
                     book.available = false;
                     self.borrowed_books.push(book.clone());
@@ -72,7 +72,7 @@ impl User {
 
     pub fn return_book(&mut self, book: &mut Book, book_type: BookType) {
         match self.role {
-            Role::Member(_) => {
+            Role::Member => {
                 book.available = true;
                 let book_index = self
                     .borrowed_books
@@ -84,7 +84,7 @@ impl User {
                 }
                 println!("not found");
             }
-            Role::Librarian(_) => {
+            Role::Librarian => {
                 book.available = true;
                 let book_index = self
                     .borrowed_books
